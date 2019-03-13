@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/tv1"
+        style="@style/expandable_item"
+        android:text="父1"
+         />
+    <TextView
+        android:id="@+id/tv2"
+        style="@style/expandable_item"
+        android:text="父2"
+         />
+    <TextView
+        android:id="@+id/tv3"
+        style="@style/expandable_item"
+        android:text="父3"
+         />
+    <TextView
+        android:id="@+id/tv4"
+        style="@style/expandable_item"
+        android:text="父4"
+         />
+
+
+</LinearLayout>
