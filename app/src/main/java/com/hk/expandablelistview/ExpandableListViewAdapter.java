@@ -10,34 +10,34 @@ import java.util.List;
 import java.util.Map;
 
 public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
-    private List<Map<String,String>> parentMap;
-    private List<Map<String,String>> childMap;
-    private List<Map<String,String>> grandChildrenMap;
+    private List<Map<String,String>> grandpaMap;
+    private List<Map<String,String>> sonMap;
+    private List<Map<String,String>> grandsonMap;
 
-    public ExpandableListViewAdapter(List<Map<String,String>> parentMap, List<Map<String,String>> childMap, List<Map<String,String>> grandChildrenMap) {
-        this.parentMap = parentMap;
-        this.childMap = childMap;
-        this.grandChildrenMap = grandChildrenMap;
+    public ExpandableListViewAdapter(List<Map<String,String>> grandpaMap, List<Map<String,String>> sonMap, List<Map<String,String>> grandsonMap) {
+        this.grandpaMap = grandpaMap;
+        this.sonMap = sonMap;
+        this.grandsonMap = grandsonMap;
     }
 
     @Override
     public int getGroupCount() {
-        return parentMap.size();
+        return grandpaMap.size();
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return childMap.size();
+        return sonMap.size();
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return parentMap.get(groupPosition);
+        return grandpaMap.get(groupPosition);
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return childMap.get(childPosition);
+        return sonMap.get(childPosition);
     }
 
     @Override
@@ -57,34 +57,69 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        GroupViewHolder groupViewHolder ;
+        GrandpaViewHolder grandpaViewHolder;
         if(convertView == null){
-            convertView = LinearLayout.inflate(parent.getContext(),R.layout.parent_item,null);
+            convertView = LinearLayout.inflate(parent.getContext(),R.layout.grandpa_item,null);
+            grandpaViewHolder = new GrandpaViewHolder();
+            grandpaViewHolder.textView1 = convertView.findViewById(R.id.tv1);
+            grandpaViewHolder.textView2 = convertView.findViewById(R.id.tv2);
+            grandpaViewHolder.textView3 = convertView.findViewById(R.id.tv3);
+            grandpaViewHolder.textView4 = convertView.findViewById(R.id.tv4);
+            convertView.setTag(grandpaViewHolder);
+        }else {
+            grandpaViewHolder = (GrandpaViewHolder) convertView.getTag();
         }
-        return null;
+        grandpaViewHolder.textView1.setText(grandpaMap.get(groupPosition).get("p1"));
+        grandpaViewHolder.textView2.setText(grandpaMap.get(groupPosition).get("p2"));
+        grandpaViewHolder.textView3.setText(grandpaMap.get(groupPosition).get("p3"));
+        grandpaViewHolder.textView4.setText(grandpaMap.get(groupPosition).get("p4"));
+        return convertView;
     }
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        return null;
+        SonViewHolder sonViewHolder;
+        if(convertView == null){
+            convertView = LinearLayout.inflate(parent.getContext(),R.layout.son_item,null);
+            sonViewHolder = new SonViewHolder();
+            sonViewHolder.textView1 = convertView.findViewById(R.id.tv1);
+            sonViewHolder.textView2 = convertView.findViewById(R.id.tv2);
+            sonViewHolder.textView3 = convertView.findViewById(R.id.tv3);
+            sonViewHolder.textView4 = convertView.findViewById(R.id.tv4);
+            convertView.setTag(sonViewHolder);
+        }else {
+            sonViewHolder = (SonViewHolder) convertView.getTag();
+        }
+        sonViewHolder.textView1.setText(sonMap.get(groupPosition).get("c1"));
+        sonViewHolder.textView2.setText(sonMap.get(groupPosition).get("c2"));
+        sonViewHolder.textView3.setText(sonMap.get(groupPosition).get("c3"));
+        sonViewHolder.textView4.setText(sonMap.get(groupPosition).get("c4"));
+        return convertView;
     }
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
-        return false;
+        return true;
     }
-
-   static class GroupViewHolder{
+    //祖
+   static class GrandpaViewHolder{
         TextView textView1;
         TextView textView2;
         TextView textView3;
         TextView textView4;
    }
-   static class ParentHolder{
+   //儿
+   static class SonViewHolder{
         TextView textView1;
         TextView textView2;
         TextView textView3;
         TextView textView4;
    }
-
+   //孙
+   static class ParentViewHolder{
+       TextView textView1;
+       TextView textView2;
+       TextView textView3;
+       TextView textView4;
+   }
 }

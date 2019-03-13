@@ -1,43 +1,42 @@
-package com.hk.expandablelistview;
+package com.hk.expandablelistview.expandablelistview3;
 
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.hk.expandablelistview.R;
+
 import java.util.List;
 import java.util.Map;
 
-public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
-    private List<Map<String,String>> grandpaMap;
-    private List<Map<String,String>> sonMap;
-    private List<Map<String,String>> grandsonMap;
+public class SonExpandableListViewAdapter extends BaseExpandableListAdapter {
+    private List<SonViewEntity> sonViewEntities;
 
-    public ExpandableListViewAdapter(List<Map<String,String>> grandpaMap, List<Map<String,String>> sonMap, List<Map<String,String>> grandsonMap) {
-        this.grandpaMap = grandpaMap;
-        this.sonMap = sonMap;
-        this.grandsonMap = grandsonMap;
+    public SonExpandableListViewAdapter(List<SonViewEntity> sonViewEntities, Context context) {
+        this.sonViewEntities = sonViewEntities;
     }
 
     @Override
     public int getGroupCount() {
-        return grandpaMap.size();
+        return sonViewEntities.size();
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return sonMap.size();
+        return sonViewEntities.get(groupPosition).grandSonViewEntities.size();
     }
 
     @Override
     public Object getGroup(int groupPosition) {
-        return grandpaMap.get(groupPosition);
+        return sonViewEntities.get(groupPosition);
     }
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return sonMap.get(childPosition);
+        return sonViewEntities.get(groupPosition).grandSonViewEntities.get(childPosition);
     }
 
     @Override
@@ -69,10 +68,10 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
         }else {
             grandpaViewHolder = (GrandpaViewHolder) convertView.getTag();
         }
-        grandpaViewHolder.textView1.setText(grandpaMap.get(groupPosition).get("p1"));
-        grandpaViewHolder.textView2.setText(grandpaMap.get(groupPosition).get("p2"));
-        grandpaViewHolder.textView3.setText(grandpaMap.get(groupPosition).get("p3"));
-        grandpaViewHolder.textView4.setText(grandpaMap.get(groupPosition).get("p4"));
+        grandpaViewHolder.textView1.setText(sonViewEntities.get(groupPosition).viewStr1);
+        grandpaViewHolder.textView1.setText(sonViewEntities.get(groupPosition).viewStr2);
+        grandpaViewHolder.textView1.setText(sonViewEntities.get(groupPosition).viewStr3);
+        grandpaViewHolder.textView1.setText(sonViewEntities.get(groupPosition).viewStr4);
         return convertView;
     }
 
@@ -90,10 +89,10 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
         }else {
             sonViewHolder = (SonViewHolder) convertView.getTag();
         }
-        sonViewHolder.textView1.setText(sonMap.get(groupPosition).get("c1"));
-        sonViewHolder.textView2.setText(sonMap.get(groupPosition).get("c2"));
-        sonViewHolder.textView3.setText(sonMap.get(groupPosition).get("c3"));
-        sonViewHolder.textView4.setText(sonMap.get(groupPosition).get("c4"));
+        sonViewHolder.textView1.setText(sonViewEntities.get(groupPosition).grandSonViewEntities.get(childPosition).viewStr1);
+        sonViewHolder.textView1.setText(sonViewEntities.get(groupPosition).grandSonViewEntities.get(childPosition).viewStr2);
+        sonViewHolder.textView1.setText(sonViewEntities.get(groupPosition).grandSonViewEntities.get(childPosition).viewStr3);
+        sonViewHolder.textView1.setText(sonViewEntities.get(groupPosition).grandSonViewEntities.get(childPosition).viewStr4);
         return convertView;
     }
 

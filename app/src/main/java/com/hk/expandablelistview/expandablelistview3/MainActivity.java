@@ -1,72 +1,66 @@
-package com.hk.expandablelistview;
+package com.hk.expandablelistview.expandablelistview3;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ExpandableListView;
 
+import com.hk.expandablelistview.R;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+    private List<GrandpaViewEntity> grandpaViewEntitys;
+    private List<SonViewEntity> sonViewEntitys;
+    private List<GrandSonViewEntity> grandSonViewEntitys;
+    private GrandpaViewEntity grandpaViewEntity;
+    private SonViewEntity sonViewEntity;
+    private GrandSonViewEntity grandSonViewEntity;
     private ExpandableListView expandableListView;
-    private ExpandableListViewAdapter expandAdapter;
-    private List<Map<String, String>> parentMap;
-    private List<Map<String, String>> childMap;
-    private List<Map<String, String>> grandChildrenMap;
+    private GrandpaExpandableListViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        addData();
         setContentView(R.layout.activity_main);
+        initData();
         expandableListView = findViewById(R.id.expand);
-        expandAdapter = new ExpandableListViewAdapter(parentMap,childMap,grandChildrenMap);
-        expandableListView.setAdapter(expandAdapter);
-        expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-            @Override
-            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                return false;
-            }
-        });
-        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                return true;
-            }
-        });
+        adapter = new GrandpaExpandableListViewAdapter(grandpaViewEntitys,this);
+        expandableListView.setAdapter(adapter);
 
     }
 
-    private void addData() {
-        parentMap = new ArrayList<>();
-        childMap = new ArrayList<>();
-        grandChildrenMap = new  ArrayList<>();
-
-        for(int i =0;i<5;i++){
-            Map map = new HashMap();
-            map.put("p1","父级1");
-            map.put("p2","父级2");
-            map.put("p3","父级3");
-            map.put("p4","父级4");
-            parentMap.add(map);
-
-            Map map2 = new HashMap();
-            map2.put("c1","子级1");
-            map2.put("c2","子级2");
-            map2.put("c3","子级3");
-            map2.put("c4","子级4");
-            childMap.add(map2);
-
-            Map map3 = new HashMap();
-            map3.put("p1","孙级1");
-            map3.put("p2","孙级2");
-            map3.put("p3","孙级3");
-            map3.put("p4","孙级4");
-            grandChildrenMap.add(map3);
+    private void initData() {
+        grandpaViewEntitys = new ArrayList<>();
+        sonViewEntitys = new ArrayList<>();
+        grandSonViewEntitys = new ArrayList<>();
+        for(int i = 0;i<4;i++){
+            grandpaViewEntity = new GrandpaViewEntity();
+            grandpaViewEntity.viewStr1 = "爷"+(i+1);
+            grandpaViewEntity.viewStr2 = "爷"+(i+1);
+            grandpaViewEntity.viewStr3 = "爷"+(i+1);
+            grandpaViewEntity.viewStr4 = "爷"+(i+1);
+            for (int j = 0;j<4;j++){
+                sonViewEntity = new SonViewEntity();
+                sonViewEntity.viewStr1 = "子"+(j+1);
+                sonViewEntity.viewStr2 = "子"+(j+1);
+                sonViewEntity.viewStr3 = "子"+(j+1);
+                sonViewEntity.viewStr4 = "子"+(j+1);
+                for(int z = 0;z<4;z++){
+                    grandSonViewEntity = new GrandSonViewEntity();
+                    grandSonViewEntity.viewStr1 = "孙"+(z+1);
+                    grandSonViewEntity.viewStr2 = "孙"+(z+1);
+                    grandSonViewEntity.viewStr3 = "孙"+(z+1);
+                    grandSonViewEntity.viewStr4 = "孙"+(z+1);
+                    grandSonViewEntitys.add(grandSonViewEntity);
+                }
+                sonViewEntity.grandSonViewEntities = grandSonViewEntitys;
+                sonViewEntitys.add(sonViewEntity);
+            }
+            grandpaViewEntity.sonViewEntities = sonViewEntitys;
+            grandpaViewEntitys.add(grandpaViewEntity);
         }
 
     }
+
 }

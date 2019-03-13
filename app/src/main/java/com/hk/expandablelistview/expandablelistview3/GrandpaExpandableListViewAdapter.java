@@ -13,11 +13,11 @@ import com.hk.expandablelistview.R;
 import java.util.List;
 import java.util.Map;
 
-public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
+public class GrandpaExpandableListViewAdapter extends BaseExpandableListAdapter {
     private List<GrandpaViewEntity> grandpaViewEntities;
     private Context context;
 
-    public ExpandableListViewAdapter(List<GrandpaViewEntity> grandpaViewEntities,Context context) {
+    public GrandpaExpandableListViewAdapter(List<GrandpaViewEntity> grandpaViewEntities, Context context) {
         this.grandpaViewEntities = grandpaViewEntities;
         this.context = context;
     }
@@ -80,28 +80,15 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-//        SonViewHolder sonViewHolder;
-//        if(convertView == null){
-//            convertView = LinearLayout.inflate(parent.getContext(),R.layout.son_item,null);
-//            sonViewHolder = new SonViewHolder();
-//            sonViewHolder.textView1 = convertView.findViewById(R.id.tv1);
-//            sonViewHolder.textView2 = convertView.findViewById(R.id.tv2);
-//            sonViewHolder.textView3 = convertView.findViewById(R.id.tv3);
-//            sonViewHolder.textView4 = convertView.findViewById(R.id.tv4);
-//            convertView.setTag(sonViewHolder);
-//        }else {
-//            sonViewHolder = (SonViewHolder) convertView.getTag();
-//        }
-//        sonViewHolder.textView1.setText(sonMap.get(groupPosition).get("c1"));
-//        sonViewHolder.textView2.setText(sonMap.get(groupPosition).get("c2"));
-//        sonViewHolder.textView3.setText(sonMap.get(groupPosition).get("c3"));
-//        sonViewHolder.textView4.setText(sonMap.get(groupPosition).get("c4"));
         return getGenericExpandableListView(grandpaViewEntities.get(groupPosition));
     }
 
     private View getGenericExpandableListView(GrandpaViewEntity grandpaViewEntity) {
         SonExpandableListView sonExpandableListView = new SonExpandableListView(context);
-//        SonExpandableListViewAdapter sonExpandableListViewAdapter = new SonExpandableListViewAdapter();
+        SonExpandableListViewAdapter sonExpandableListViewAdapter = new SonExpandableListViewAdapter(grandpaViewEntity.sonViewEntities,context);
+        sonExpandableListView.setAdapter(sonExpandableListViewAdapter);
+        sonExpandableListView.setPadding(30,0,0,0);
+        return sonExpandableListView;
     }
 
     public class SonExpandableListView extends ExpandableListView{
@@ -127,19 +114,5 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
         TextView textView2;
         TextView textView3;
         TextView textView4;
-   }
-   //儿
-   static class SonViewHolder{
-        TextView textView1;
-        TextView textView2;
-        TextView textView3;
-        TextView textView4;
-   }
-   //孙
-   static class ParentViewHolder{
-       TextView textView1;
-       TextView textView2;
-       TextView textView3;
-       TextView textView4;
    }
 }

@@ -2,6 +2,7 @@ package com.hk.expandablelistview;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
@@ -19,11 +20,24 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        addData();
         setContentView(R.layout.activity_main);
         expandableListView = findViewById(R.id.expand);
         expandAdapter = new ExpandableListViewAdapter(parentMap,childMap,grandChildrenMap);
         expandableListView.setAdapter(expandAdapter);
-        addData();
+        expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                return false;
+            }
+        });
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                return true;
+            }
+        });
+
     }
 
     private void addData() {
@@ -52,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
             map3.put("p3","孙级3");
             map3.put("p4","孙级4");
             grandChildrenMap.add(map3);
-            expandAdapter.notifyDataSetChanged();
         }
 
     }
